@@ -4,70 +4,123 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LocalPibox — personal AI devstack</title>
-<meta name="description" content="A containerized Pi coding agent paired with a local Lemonade/Qwen LLM, MCP servers, and forked extensions.">
+<meta name="description" content="A local-first AI devstack on Pi.dev: containerized Pi coding agent + local Lemonade/Qwen LLM, tuned for a Ryzen AI Max+ 395 128GB system.">
 <style>
   :root{--bg:#0f172a;--fg:#e2e8f0;--muted:#94a3b8;--accent:#38bdf8;--card:#1e293b;--line:#334155}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-  .wrap{max-width:760px;margin:0 auto;padding:48px 24px}
+  .wrap{max-width:820px;margin:0 auto;padding:48px 24px}
   h1{font-size:2.2rem;margin:0 0 4px}
   h1 .dot{color:var(--accent)}
-  .tagline{color:var(--muted);margin:0 0 28px}
-  p.card{background:var(--card);border:1px solid var(--line);padding:16px;border-radius:10px}
-  table{width:100%;border-collapse:collapse;margin:18px 0}
-  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  .tagline{color:var(--muted);margin:0 0 8px}
+  .lead{color:var(--fg);margin-bottom:28px}
+  .card{background:var(--card);border:1px solid var(--line);padding:16px 18px;border-radius:10px}
+  table{width:100%;border-collapse:collapse;margin:14px 0}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
   th{color:var(--accent);font-weight:600}
   td:first-child{white-space:nowrap;font-weight:600}
   a{color:var(--accent);text-decoration:none}
   a:hover{text-decoration:underline}
   pre{background:#0b1220;border:1px solid var(--line);padding:14px;border-radius:8px;overflow:auto}
-  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em}
-  h2{font-size:1.3rem;margin-top:36px;border-bottom:1px solid var(--line);padding-bottom:6px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;background:rgba(255,255,255,.06);padding:1px 5px;border-radius:4px}
+  pre code{background:none;padding:0}
+  ul{margin:8px 0;padding-left:20px}
+  h2{font-size:1.35rem;margin-top:40px;border-bottom:1px solid var(--line);padding-bottom:8px}
+  h3{font-size:1.05rem;margin:20px 0 8px;color:var(--accent)}
   .repo-link{color:var(--fg)}
-  footer{color:var(--muted);font-size:.85rem;margin-top:48px}
+  footer{color:var(--muted);font-size:.85rem;margin-top:56px;border-top:1px solid var(--line);padding-top:16px}
+  .hl{color:var(--accent);font-weight:600}
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>LocalPibox<span class="dot">.</span></h1>
-  <p class="tagline">A personal AI devstack built on Pi.dev — local, private, reproducible, forkable.</p>
+  <p class="tagline">A personal, local-first AI devstack built on Pi.dev.</p>
+  <p class="lead">A containerized <strong>Pi coding agent</strong> paired with a
+  <strong>local</strong> large model served by <strong>Lemonade</strong>, MCP
+  servers, and forked extensions — focused on <span class="hl">local LLM
+  development</span> and tuned for a <span class="hl">Ryzen AI Max+ 395 with
+  128&nbsp;GB</span> of unified memory. The model never leaves your machine.</p>
 
-  <p class="card">A containerized <strong>Pi coding agent</strong> paired with a
-  <strong>local Lemonade/Qwen LLM</strong>, MCP servers, and a curated set of
-  forked extensions. Keep the model local and private while running a
-  reasoning-aware coding agent around it.</p>
+  <h2>Why local, why Lemonade</h2>
+  <p class="card">Because the target hardware can run large models comfortably,
+  there is no reason to send code to a cloud API. <strong>Lemonade</strong>
+  serves the model locally (<code>http://127.0.0.1:13305/v1</code>) — it is the
+  default provider. The default model is
+  <code>Qwen3.6-35B-A3B-MTP-GGUF</code>, driven at medium/low thinking via the
+  <code>reasoning_effort</code> patch in the Pi fork. 128&nbsp;GB of unified
+  APU memory means big context windows and on-device reasoning: private,
+  offline-capable, fast.</p>
 
   <h2>The stack</h2>
   <table>
     <tr><th>Repo</th><th>What it is</th><th>Tracked upstream</th></tr>
     <tr><td><a class="repo-link" href="https://github.com/localpibox/devstack">devstack</a></td><td>container image + <code>lpb</code> launcher, CI, bootstrap</td><td>own</td></tr>
-    <tr><td><a class="repo-link" href="https://github.com/localpibox/pi">pi</a></td><td>Pi monorepo fork: Qwen reasoning, overflow fixes</td><td>earendil-works/pi</td></tr>
+    <tr><td><a class="repo-link" href="https://github.com/localpibox/pi">pi</a></td><td>Pi monorepo fork: Qwen reasoning, overflow fixes</td><td>earendil-works/pi (releases)</td></tr>
     <tr><td><a class="repo-link" href="https://github.com/localpibox/config">config</a></td><td>preset: settings, MCP servers, skills, agents</td><td>own</td></tr>
-    <tr><td><a class="repo-link" href="https://github.com/localpibox/lemonade-pi-plugin">lemonade-pi-plugin</a></td><td>Lemonade provider: Qwen thinking + vision</td><td>lemonade-sdk</td></tr>
-    <tr><td><a class="repo-link" href="https://github.com/localpibox/pi-subagents">pi-subagents</a></td><td>centralized subagent model registry</td><td>tintinweb</td></tr>
+    <tr><td><a class="repo-link" href="https://github.com/localpibox/lemonade-pi-plugin">lemonade-pi-plugin</a></td><td>Lemonade provider: Qwen thinking + vision</td><td>lemonade-sdk (main)</td></tr>
+    <tr><td><a class="repo-link" href="https://github.com/localpibox/pi-subagents">pi-subagents</a></td><td>centralized subagent model registry</td><td>tintinweb (master)</td></tr>
     <tr><td><a class="repo-link" href="https://github.com/localpibox/lpb-memory">lpb-memory</a></td><td>persistent memory extension</td><td>independent</td></tr>
   </table>
 
-  <h2>Quick start</h2>
-  <pre><code>curl -fsSL https://raw.githubusercontent.com/localpibox/devstack/main/scripts/install.sh | bash
-lpb /path/to/project</code></pre>
-  <p><code>lpb</code> boots the container, starts the local Lemonade/Qwen backend,
-  and opens a Pi CLI session in your project.</p>
+  <h2>The <code>lpb</code> utility</h2>
+  <p>Host-side launcher for the whole stack. Install once, then drive it from
+  your shell:</p>
+  <pre><code>curl -fsSL https://raw.githubusercontent.com/localpibox/devstack/main/scripts/install.sh | bash</code></pre>
+
+  <h3>Commands</h3>
+  <table>
+    <tr><th>Command</th><th>What it does</th></tr>
+    <tr><td><code>lpb [project]</code></td><td>Start a Pi CLI session (foreground); default <code>~</code></td></tr>
+    <tr><td><code>lpb /proj -- &lt;pi-args&gt;</code></td><td>Pass args to <code>pi</code> (<code>-p</code>, <code>--session</code>, <code>--continue</code>, <code>--thinking</code>, <code>--name</code>)</td></tr>
+    <tr><td><code>lpb --shell [project]</code></td><td>Open an interactive bash shell in the container</td></tr>
+    <tr><td><code>lpb --web [project]</code></td><td>Start VSCodium (web IDE) at a project (background)</td></tr>
+    <tr><td><code>lpb --ssh [pubkey|path] [proj]</code></td><td>Start an sshd server (background) for remote login</td></tr>
+    <tr><td><code>lpb --stop</code></td><td>Stop the container</td></tr>
+    <tr><td><code>lpb --remove</code></td><td>Stop + remove the container and its state dirs</td></tr>
+    <tr><td><code>lpb --logs</code></td><td>Stream container logs</td></tr>
+    <tr><td><code>lpb --update</code></td><td>Pull the latest image(s)</td></tr>
+    <tr><td><code>lpb --config</code></td><td>Show the launcher config file location</td></tr>
+    <tr><td><code>lpb --help</code></td><td>Show usage</td></tr>
+  </table>
+
+  <h3><code>--web</code> (VSCodium) options</h3>
+  <p><code>--host</code> · <code>--port</code> · <code>--token</code> ·
+  <code>--without-token</code> · <code>--data-dir</code> ·
+  <code>--user-data-dir</code> · <code>--ext-dir</code> · <code>--base-path</code></p>
+
+  <h3>Examples</h3>
+  <pre><code>lpb                                          # Pi at ~
+lpb /home/user/myproject                     # Pi at a project
+lpb /myproject -- -p "summarize this repo"   # survey via CLI
+lpb /myproject -- --session abc123           # resume a session
+lpb --shell /home/user/myproject             # shell into the container
+lpb --web --port 8080                        # VSCodium on :8080</code></pre>
 
   <h2>Architecture</h2>
-  <pre><code>Your shell → lpb → container
-                    ├─ Pi CLI (custom fork: Qwen reasoning)
-                    ├─ Lemonade provider (local Qwen LLM)
+  <pre><code>Your shell → lpb → container (podman/docker)
+                    ├─ Pi CLI (custom fork: Qwen reasoning_effort)
+                    ├─ lemonade plugin → local Qwen LLM (127.0.0.1:13305/v1)
                     ├─ MCP servers (agent-browser, …)
-                    └─ extensions: memory, subagents, footer</code></pre>
+                    └─ extensions: lpb-memory, pi-subagents, footer</code></pre>
+  <p>Config preset from <code>config</code> seeds <code>~/.pi/agent/</code> on
+  first run; extensions install on boot from <code>settings.json#packages</code>
+  via <code>pi update --extensions</code>. Full architecture and the
+  Qwen-thinking overflow notes live in
+  <a href="https://github.com/localpibox/devstack#architecture">devstack</a> /
+  <a href="https://github.com/localpibox/devstack/tree/lpb/doc">doc</a>.</p>
 
-  <h2>Fork it</h2>
-  <p>Devstack is built to be forked and repointed. Edit <code>lpb.stack.env</code>
-  in a devstack fork to point at your own <code>PI_FORK</code>,
-  <code>CONFIG_FORK</code>, images, and container name. See
-  <a href="https://github.com/localpibox/devstack#forking--repointing">Forking &amp; Repointing</a>.</p>
+  <h2>Docs &amp; guides</h2>
+  <ul>
+    <li><a href="https://github.com/localpibox/devstack#forking--repointing">Forking &amp; Repointing</a> — fork the whole stack and repoint <code>lpb.stack.env</code> at your own repos.</li>
+    <li><a href="https://github.com/localpibox/devstack#forked-repos-patches--upstream-policy">Forked Repos &amp; Upstream Policy</a> — per-fork patch contents and upstream mapping.</li>
+    <li><a href="https://github.com/localpibox/devstack/blob/lpb/doc/config-utility.md">Config-manager design</a> — planned <code>pi-config</code> utility for MCP + extensions.</li>
+    <li><a href="https://github.com/localpibox/devstack/blob/lpb/.pi/skills/config-repo-sync/SKILL.md">Config sync skill</a> — reconcile the preset repo with the runtime copy.</li>
+  </ul>
 
-  <footer>LocalPibox — built on <a href="https://github.com/earendil-works/pi">Pi.dev</a> · local Lemonade/Qwen backend.</footer>
+  <footer>LocalPibox — built on
+  <a href="https://github.com/earendil-works/pi">Pi.dev</a> · local
+  Lemonade/Qwen backend · on a Ryzen AI Max+ 395 (128 GB).</footer>
 </div>
 </body>
 </html>
