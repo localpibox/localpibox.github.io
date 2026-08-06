@@ -30,6 +30,8 @@
   .repo-link{color:var(--fg)}
   footer{color:var(--muted);font-size:.85rem;margin-top:56px;border-top:1px solid var(--line);padding-top:16px}
   .hl{color:var(--accent);font-weight:600}
+  .badge{display:inline-block;background:var(--card);border:1px solid var(--line);padding:2px 8px;border-radius:4px;font-size:.8em;margin:2px}
+  .contrib-section{background:var(--card);border:1px solid var(--line);padding:16px 18px;border-radius:10px;margin-top:16px}
 </style>
 </head>
 <body>
@@ -54,13 +56,13 @@
 
   <h2>The stack</h2>
   <table>
-    <tr><th>Repo</th><th>What it is</th><th>Tracked upstream</th></tr>
-    <tr><td><a class="repo-link" href="https://github.com/localpibox/devstack">devstack</a></td><td>container image + <code>lpb</code> launcher, CI, bootstrap</td><td>own</td></tr>
-    <tr><td><a class="repo-link" href="https://github.com/localpibox/pi">pi</a></td><td>Pi monorepo fork: Qwen reasoning, overflow fixes</td><td>earendil-works/pi (releases)</td></tr>
-    <tr><td><a class="repo-link" href="https://github.com/localpibox/config">config</a></td><td>preset: settings, MCP servers, skills, agents</td><td>own</td></tr>
-    <tr><td><a class="repo-link" href="https://github.com/localpibox/lemonade-pi-plugin">lemonade-pi-plugin</a></td><td>Lemonade provider: Qwen thinking + vision</td><td>lemonade-sdk (main)</td></tr>
-    <tr><td><a class="repo-link" href="https://github.com/localpibox/pi-subagents">pi-subagents</a></td><td>centralized subagent model registry</td><td>tintinweb (master)</td></tr>
-    <tr><td><a class="repo-link" href="https://github.com/localpibox/lpb-memory">lpb-memory</a></td><td>persistent memory extension</td><td>independent</td></tr>
+    <tr><th>Repo</th><th>What it is</th><th>Upstream</th></tr>
+    <tr><td><a class="repo-link" href="https://github.com/localpibox/devstack">devstack</a></td><td>container image + <code>lpb</code> launcher, CI, bootstrap</td><td><span class="badge">own</span></td></tr>
+    <tr><td><a class="repo-link" href="https://github.com/localpibox/pi">pi</a></td><td>Pi monorepo fork: Qwen reasoning, overflow fixes</td><td><span class="badge">earendil-works/pi</span></td></tr>
+    <tr><td><a class="repo-link" href="https://github.com/localpibox/config">config</a></td><td>preset: settings, MCP servers, skills, agents</td><td><span class="badge">own</span></td></tr>
+    <tr><td><a class="repo-link" href="https://github.com/localpibox/lemonade-pi-plugin">lemonade-pi-plugin</a></td><td>Lemonade provider: Qwen thinking + vision</td><td><span class="badge">lemonade-sdk</span></td></tr>
+    <tr><td><a class="repo-link" href="https://github.com/localpibox/pi-subagents">pi-subagents</a></td><td>centralized subagent model registry</td><td><span class="badge">tintinweb</span></td></tr>
+    <tr><td><a class="repo-link" href="https://github.com/localpibox/lpb-memory">lpb-memory</a></td><td>persistent memory extension (subprocess reviews)</td><td><span class="badge">independent</span></td></tr>
   </table>
 
   <h2>The <code>lpb</code> utility</h2>
@@ -107,16 +109,29 @@ lpb --web --port 8080                        # VSCodium on :8080</code></pre>
   first run; extensions install on boot from <code>settings.json#packages</code>
   via <code>pi update --extensions</code>. Full architecture and the
   Qwen-thinking overflow notes live in
-  <a href="https://github.com/localpibox/devstack#architecture">devstack</a> /
-  <a href="https://github.com/localpibox/devstack/tree/lpb/doc">doc</a>.</p>
+  <a href="https://github.com/localpibox/devstack#architecture">devstack/README</a>
+  and <a href="https://github.com/localpibox/devstack/tree/main/doc">devstack/doc</a>.</p>
 
   <h2>Docs &amp; guides</h2>
   <ul>
-    <li><a href="https://github.com/localpibox/devstack#forking--repointing">Forking &amp; Repointing</a> — fork the whole stack and repoint <code>lpb.stack.env</code> at your own repos.</li>
-    <li><a href="https://github.com/localpibox/devstack#forked-repos-patches--upstream-policy">Forked Repos &amp; Upstream Policy</a> — per-fork patch contents and upstream mapping.</li>
-    <li><a href="https://github.com/localpibox/devstack/blob/lpb/doc/config-utility.md">Config-manager design</a> — planned <code>pi-config</code> utility for MCP + extensions.</li>
-    <li><a href="https://github.com/localpibox/devstack/blob/lpb/.pi/skills/config-repo-sync/SKILL.md">Config sync skill</a> — reconcile the preset repo with the runtime copy.</li>
+    <li><a href="https://github.com/localpibox/localpibox">localpibox/README</a> — canonical project overview and stack reference</li>
+    <li><a href="https://github.com/localpibox/devstack#forking--repointing">Forking &amp; Repointing</a> — fork the whole stack and repoint <code>lpb.stack.env</code> at your own repos</li>
+    <li><a href="https://github.com/localpibox/devstack#forked-repos-patches--upstream-policy">Forked Repos &amp; Upstream Policy</a> — per-fork patch contents and upstream mapping</li>
+    <li><a href="https://github.com/localpibox/devstack/blob/main/CONTRIBUTING.md">CONTRIBUTING</a> — contributing directly, forking for your own stack, or feeding back experiences</li>
+    <li><a href="https://github.com/localpibox/devstack/blob/main/doc/config-utility.md">Config-manager design</a> — planned <code>pi-config</code> utility for MCP + extensions</li>
+    <li><a href="https://github.com/localpibox/devstack/blob/main/.pi/skills/config-repo-sync/SKILL.md">Config sync skill</a> — reconcile the preset repo with the runtime copy</li>
   </ul>
+
+  <h2>Contributing</h2>
+  <div class="contrib-section">
+    <p>The stack is designed to be forked and personalized. Three paths:</p>
+    <ul>
+      <li><strong>Contribute directly</strong> — improve patches, add features, fix bugs. Each repo has its own CONTRIBUTING.md.</li>
+      <li><strong>Fork for your stack</strong> — fork all repos, repoint <code>lpb.stack.env</code>, and run your own variation.</li>
+      <li><strong>Feed back experiences</strong> — share what works reliably on your hardware with your models. Helps everyone converge on robust local configurations.</li>
+    </ul>
+    <p>See <a href="https://github.com/localpibox/devstack/blob/main/CONTRIBUTING.md">devstack/CONTRIBUTING.md</a> for the full guide.</p>
+  </div>
 
   <footer>LocalPibox — built on
   <a href="https://github.com/earendil-works/pi">Pi.dev</a> · local
